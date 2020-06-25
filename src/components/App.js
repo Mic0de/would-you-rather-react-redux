@@ -6,52 +6,77 @@ import Login from "./Login";
 import { handleInitialData } from "../actions/shared";
 import LoadingBar from "react-redux-loading";
 import { ProgressSpinner } from "primereact/progressspinner";
-import { Home } from "./Home";
-import { BrowserRouter as Router, Route} from 'react-router-dom';
+import Home from "./Home";
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Redirect,
+} from "react-router-dom";
 
-import {handleSetAuthedUser} from '../actions/authedUser';
+import { handleSetAuthedUser } from "../actions/authedUser";
+import Question from "./Question";
+import QuestionResults from "./QuestionResults";
+
+const PrivateRoute = ({ component: Component, authedUser, ...rest }) => {
+  console.log("***PrivateRoute authedUser = ", authedUser);
+  const props = { ...rest };
+  return (
+    <Route
+      {...rest}
+      render={(props) =>
+        authedUser !== null ? <Component {...props} /> :  <Login/> //<Redirect to='/' />
+      }
+    />
+  );
+};
+
 class App extends Component {
   componentDidMount() {
     this.props.dispatch(handleInitialData());
   }
-  state = {
-    authedUser: this.props.authedUser
-  }
 
   handleLogin = (e) => {
     const userId = e.target.value;
-
-    const {dispatch} = this.props;
+    const { dispatch, history, location } = this.props;
 
     dispatch(handleSetAuthedUser(userId));
 
-    this.setState(()=>({
-      authedUser: userId,
-    }))
-  }
+    history.push(location.state.from || '/');
+  };
   render() {
-    console.log("App.js props = ", this.props);
     return (
       <Router>
-      <div className='App'>
-        <Fragment>
-          <header className='header-options'>
+        <div className='App'>
+          {/* <header className='header-options'> */}
             <Header />
-          </header>
+          {/* </header> */}
+
           <LoadingBar className='loading-bar' />
           <div className='container'>
-            {this.props.loading === true ? (
-              // <ProgressSpinner strokeWidth='4'/>
-              <h1>Loading...</h1>
-            ) : (this.props.authedUser === null || this.props.authedUser === undefined )? (
-              <Login />
-            ) : (
-              <div>
-              <p>App.js user =  {this.props.authedUser}</p>
-              <Route path='/' exact component={Home} />
-              {/* <Home authedUser={this.props.authedUser} /> */}
-              </div>
-            )}
+            <Fragment>
+              <Switch>
+                <Route path='/' exact component={Login} />
+                <PrivateRoute
+                  path='/questions/:id'
+                  exact
+                  component={Question}
+                  authedUser={this.props.authedUser}
+                />
+                <PrivateRoute
+                  path='/questions/:id/results'
+                  exact
+                  component={QuestionResults}
+                  authedUser={this.props.authedUser}
+                />
+                <PrivateRoute
+                  path='/home'
+                  exact
+                  component={Home}
+                  authedUser={this.props.authedUser}
+                />
+              </Switch>
+            </Fragment>
           </div>
 
           <footer className='footer'>
@@ -69,19 +94,17 @@ class App extends Component {
               </a>
             </div>
           </footer>
-        </Fragment>
-      </div>
+        </div>
       </Router>
     );
   }
 }
 function mapStateToProps(state, handleLogin) {
-
-  const { users, authedUser } = state;
+  const { users, authedUser, questions } = state;
   console.log("**App.js state:", state);
   return {
     authedUser,
-    loading: users === {},
+    loading: users === {} && questions === {},
     users,
   };
 }

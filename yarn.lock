@@ -8385,6 +8385,11 @@ pretty-format@^25.1.0:
     ansi-styles "^4.0.0"
     react-is "^16.12.0"
 
+primeflex@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/primeflex/-/primeflex-1.2.0.tgz#a74dd42287e0d0759366646974714b59c87daac7"
+  integrity sha512-u7qi4+Y1eSDrKwpg6TQBEDpk0rS2sUPw3iqMnGgwWtpESrGR5I3K7bh0nM4ehP3KXvrdUOSFOk5KlhkgoYEfow==
+
 primeicons@^4.0.0-rc.2:
   version "4.0.0-rc.2"
   resolved "https://registry.yarnpkg.com/primeicons/-/primeicons-4.0.0-rc.2.tgz#af77e84176d9447826de0710ffead9bbd6e9b3f7"

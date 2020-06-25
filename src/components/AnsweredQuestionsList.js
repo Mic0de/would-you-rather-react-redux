@@ -1,32 +1,36 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import Question from './Question';
 
-export class AnsweredQuestionsList extends Component {
-    render() {
-        console.log("** AnsweredQuestionsList props: ", this.props)
-        return (
-            <div>
-                Answered Questions List!
-                <p>{this.props.authedUser}</p>
-                <ul>
-                    <li>{JSON.stringify(this.props.questions)}</li>
-                </ul>
-            </div>
-        )
-    }
+class AnsweredQuestionsList extends Component {
+  render() {
+    return (
+      <div>
+        <ul>
+          <li>{JSON.stringify(this.props.questions)}</li>
+          {this.props.questions.map((qId) => (
+            <Question key={qId} questionId={qId} />
+          ))}
+        </ul>
+      </div>
+    );
+  }
 }
-
-function mapStateToProps({state}){
-    const {questions, authedUser} = state;
-    return {
+/**
+ * Example question
+ * {{"8xf0y6ziyjabvozdd253nd":
+ *  {"id":"8xf0y6ziyjabvozdd253nd","author":"sarahedo","timestamp":1467166872634,"optionOne":{"votes":["sarahedo"],"text":"have horrible short term memory"},"optionTwo":{"votes":[],"text":"have horrible long term memory"}}} state
+ */
+function mapStateToProps(state) {
+  const { questions, authedUser } = state;
+  return {
     authedUser,
-    questions //: questions.filter(([k, q])=> (q.optionOne.votes.includes(authedUser) || q.optionTwo.votes.includes(authedUser)))
+    questions: (Object.entries(questions).filter(
+      ([qk, qv]) =>
+        qv["optionOne"].votes.includes(authedUser) ||
+        qv["optionTwo"].votes.includes(authedUser)
+    )).map(([qk,qv]) => qk),
+  };
 }
-    
-    }
 
-function mapDispatchToProps() {
-    
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(AnsweredQuestionsList)
+export default connect(mapStateToProps)(AnsweredQuestionsList);
