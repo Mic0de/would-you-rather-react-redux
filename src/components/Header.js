@@ -1,38 +1,59 @@
-import React, { Component } from "react";
-import { Link } from "react-router-dom";
-import { TabMenu } from "primereact/tabmenu";
-import { TabView, TabPanel } from "primereact/tabview";
-import Home from "./Home";
+import React, { Component, Fragment } from "react";
+import { Link, withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import Login from "./Login";
+import { handleSetAuthedUser } from "../actions/authedUser";
+import { Button } from "primereact/button";
 
-function handleLogout() {
-  //TODO: Set Authed User to NULL (Dispatch action)
-  //TODO: Redirect to Login or '/' ??
-  console.log("Log out clicked!");
-}
+
 class Header extends Component {
+  handleLogout = (e) => {
+    e.preventDefault()
+
+    const { dispatch, history }= this.props;
+
+    dispatch(handleSetAuthedUser(null));
+
+    history.push('/');
+  };
   render() {
     return (
-      <div>
-        <Link to='/home' component={Home}>
-          Home
-        </Link>
-        <Link to='/new'>New Question</Link>
-        <Link to='/leaderboard'>Leader Board</Link>
-        <Link onClick={handleLogout()}>Log Out</Link>
-        logout? username?
-      </div>
+      <Fragment>
+      <span className='header-options'>
+        <Link to='/home'>&nbsp;Home&nbsp;</Link>
+        <Link to='/new'>&nbsp;  New Question &nbsp; </Link>
+        <Link to='/leaderboard'>&nbsp;Leader Board&nbsp;</Link>
+        
+      {/* </span> */}
+
+        {this.props.authedUser !== null ? (
+          // <div className='user-logged-in-header'>
+          <Fragment>
+            <img
+              src= {this.props.currentUser.avatarURL}
+              alt={`Avatar of ${this.props.currentUser.id}`}
+              className='small-avatar '
+            />
+            <p>{`${this.props.currentUser.name}`}</p>
+            <Button onClick={this.handleLogout} label='Log Out' className='logout-button'/>
+          {/* // </div> */}
+          </Fragment>
+        ) : null}
+        </span>
+        </Fragment>
     );
   }
 }
 
-function mapStateToProps({ authedUser, users }) {
+function mapStateToProps({ authedUser, users }, props) {
+  
+  const { dispatch, history, location } = props;
   return {
-    // authedUser,
-    // users,
-    // loggedIn: authedUser !== undefined && authedUser !== null,
+    authedUser,
+    currentUser: authedUser !== null ? users[authedUser] : null,
+    dispatch,
+    history,
+    location
   };
 }
 
-export default connect(mapStateToProps)(Header);
+export default withRouter(connect(mapStateToProps)(Header));

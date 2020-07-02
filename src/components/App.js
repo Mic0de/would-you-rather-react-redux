@@ -5,27 +5,25 @@ import Header from "./Header";
 import Login from "./Login";
 import { handleInitialData } from "../actions/shared";
 import LoadingBar from "react-redux-loading";
-import { ProgressSpinner } from "primereact/progressspinner";
 import Home from "./Home";
 import {
   BrowserRouter as Router,
   Route,
   Switch,
-  Redirect,
+  withRouter,
 } from "react-router-dom";
 
-import { handleSetAuthedUser } from "../actions/authedUser";
 import Question from "./Question";
 import QuestionResults from "./QuestionResults";
+import NewQuestion from "./NewQuestion";
+import Leaderboard from "./Leaderboard";
 
 const PrivateRoute = ({ component: Component, authedUser, ...rest }) => {
-  console.log("***PrivateRoute authedUser = ", authedUser);
-  const props = { ...rest };
   return (
     <Route
       {...rest}
       render={(props) =>
-        authedUser !== null ? <Component {...props} /> :  <Login/> //<Redirect to='/' />
+        authedUser !== null ? <Component {...props} /> :  <Login/> 
       }
     />
   );
@@ -36,14 +34,6 @@ class App extends Component {
     this.props.dispatch(handleInitialData());
   }
 
-  handleLogin = (e) => {
-    const userId = e.target.value;
-    const { dispatch, history, location } = this.props;
-
-    dispatch(handleSetAuthedUser(userId));
-
-    history.push(location.state.from || '/');
-  };
   render() {
     return (
       <Router>
@@ -75,6 +65,18 @@ class App extends Component {
                   component={Home}
                   authedUser={this.props.authedUser}
                 />
+                <PrivateRoute
+                  path='/new'
+                  exact
+                  component={NewQuestion}
+                  authedUser={this.props.authedUser}
+                />
+                <PrivateRoute
+                  path='/leaderboard'
+                  exact
+                  component={Leaderboard}
+                  authedUser={this.props.authedUser}
+                />
               </Switch>
             </Fragment>
           </div>
@@ -99,14 +101,15 @@ class App extends Component {
     );
   }
 }
-function mapStateToProps(state, handleLogin) {
+function mapStateToProps(state, props) {
   const { users, authedUser, questions } = state;
-  console.log("**App.js state:", state);
+  // const {id} = props.location.search; //match.params;
   return {
     authedUser,
     loading: users === {} && questions === {},
     users,
+    // id
   };
 }
 
-export default connect(mapStateToProps)(App);
+export default withRouter(connect(mapStateToProps)(App));

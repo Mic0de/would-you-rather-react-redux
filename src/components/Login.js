@@ -1,16 +1,21 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Card } from "primereact/card";
+import { withRouter } from 'react-router-dom';
 import { Dropdown } from "primereact/dropdown";
 import { handleSetAuthedUser } from "../actions/authedUser";
 
 class Login extends Component {
   handleLogin = (e) => {
+    e.preventDefault();
     const userId = e.target.value;
 
-    const { dispatch } = this.props;
+    const { dispatch, history } = this.props;
 
     dispatch(handleSetAuthedUser(userId));
+    // console.log('handleLogin location = ', location);
+    // history.push(location.state.from || '/');
+    history.push('/home');
   };
 
   render() {
@@ -26,13 +31,16 @@ class Login extends Component {
   }
 }
 
-function mapStateToProps(state) {
+function mapStateToProps(state, props) {
   const { authedUser, users } = state;
-  console.log("**Login.js state:", state);
+  const { dispatch } = props;
   return {
     authedUser,
     usernames: Object.keys(users),
+    dispatch,
+    // history,
+    // location
   };
 }
 
-export default connect(mapStateToProps)(Login);
+export default withRouter(connect(mapStateToProps)(Login));

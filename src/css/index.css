@@ -5,11 +5,11 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: black;
-  background-image: url("../images/isolated_city-wallpaper-2880x1800.jpg");
-  background-position: center;
+  background-color: lightskyblue;
+ /* background-image: url("images/isolated_city-wallpaper-2880x1800.jpg"); */
+  /* background-position: center;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: cover; */ 
 }
 
 code {

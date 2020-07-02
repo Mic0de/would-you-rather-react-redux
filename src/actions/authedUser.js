@@ -1,3 +1,4 @@
+import { showLoading, hideLoading } from "react-redux-loading";
 export const SET_AUTHED_USER = "SET_AUTHED_USER";
 
 function setAuthedUser(id) {
@@ -10,10 +11,10 @@ function setAuthedUser(id) {
 export function handleSetAuthedUser(id){
   return(dispatch, getState)=>{
 
-    // dispatch(showLoading());
+    dispatch(showLoading());
 
     dispatch(setAuthedUser(id));
 
-    // dispatch(hideLoading());
+    dispatch(hideLoading());
   }
 }
