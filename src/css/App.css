@@ -37,8 +37,6 @@
   }
 }
 
-
-
 .container {
   /* none */
 }
@@ -71,35 +69,31 @@
   margin-right: 12.5vw;
 }
 
-
 .p-tabview-nav {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.question-avatar{
-  position: relative ;
+.question-avatar {
+  position: relative;
   right: 0px;
   max-height: 12vh;
   max-width: 12vw;
   margin: 0px;
 }
 
-
-
-.question-content{
+.question-content {
   font-style: italic;
-  display: block  !important;
+  display: block !important;
   justify-content: left !important;
   align-items: left !important;
   left: 1vw !important;
 }
 
-
-.question-box{
+.question-box {
   border-style: solid !important;
-  border-width: .5px !important;
+  border-width: 0.5px !important;
   border-color: black !important;
   border-radius: 2%;
   max-width: 99%;
@@ -108,38 +102,29 @@
   margin-bottom: 2vh;
   margin-left: 1vw;
   margin-right: 1vw;
-  box-shadow: .5em .5em black !important;
-}
-.user-logged-in-header{
-  /* padding: 0px 10px; */
-  /* word-wrap: normal; */
-  /* display: flex; */
-  /* float: right;/ */
-  /* font-size: 5vh; */
-  position: right;
-  
+  box-shadow: 0.5em 0.5em black !important;
 }
 
-.small-avatar{
+.small-avatar {
   /* position: relative; */
   max-height: 4vh;
   max-width: 4vw;
   margin-left: 1vw;
 }
 
-.logout-button{
-  max-height: 5vh;
+.logout-button {
+  /* max-height: 5vh; */
   /* margin: 3vh;
   float: right;
   font-size: 2vh;
   top: -2vh;
-  right: -45vw; */ 
-  float: right;
-
+  right: -45vw; */
+  /* float: right; */
+  /* position: right; */
 }
 
 .header-options {
-  /* display: block; */
+  display: inline-block;
   color: white;
   margin: 3vh;
   /* background-color: black; */
@@ -147,7 +132,8 @@
   /* text-align: center !important; */
   /* overflow: hidden; */
   /* top: -10px !important; */
-  float: top;
+  /* float: top; */
+  /* display: inline-block; */
 }
 
 .header-options a {
@@ -159,10 +145,43 @@
   color: white;
 }
 
+.header-options p {
+  display: inline-block;
+  margin-right: 20vw;
+}
+.user-logged-in-header {
+  /* padding: 0px 10px; */
+  /* word-wrap: normal; */
+  /* display: flex; */
+  /* float: right;/ */
+  /* font-size: 5vh; */
+  /* position: right; */
+  display: inline-block;
+}
+
 .p-progressbar-label {
   color: black !important;
 }
 
 .selected-option-badge {
   color: gold;
+}
+
+.new-question-card {
+  width: 75vw;
+  margin: 12.5vw;
+}
+
+.user-score {
+  font-size: 2em;
+  color: yellow;
+  font-weight: bolder;
+}
+
+.user-card-avatar {
+  position: relative;
+  right: 0px;
+  max-height: 40vh;
+  max-width: 40vw;
+  margin: 0px;
 }

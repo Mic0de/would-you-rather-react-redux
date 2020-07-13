@@ -8,13 +8,12 @@ function setAuthedUser(id) {
   };
 }
 
-export function handleSetAuthedUser(id){
-  return(dispatch, getState)=>{
-
+export function handleSetAuthedUser(id) {
+  return (dispatch, getState) => {
     dispatch(showLoading());
 
     dispatch(setAuthedUser(id));
 
     dispatch(hideLoading());
-  }
+  };
 }

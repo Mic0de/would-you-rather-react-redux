@@ -1,6 +1,5 @@
 import { showLoading, hideLoading } from "react-redux-loading";
 import {
-  formatQuestion,
   _saveQuestion,
   _saveQuestionAnswer,
 } from "../utils/_DATA";
@@ -9,44 +8,33 @@ export const RECEIVE_QUESTIONS = "RECEIVE_QUESTIONS";
 export const ADD_QUESTION = "ADD_QUESTION";
 export const ANSWER_QUESTION = "ANSWER_QUESTION";
 
-function addQuestion(question) {
+function addQuestion(question, authedUser) {
   return {
     type: ADD_QUESTION,
     question,
+    authedUser,
   };
 }
 
-function answerQuestion(questions, users) {
-  console.log('questions', questions)
-  console.log('users', users)
-
-  console.groupEnd();
+export function answerQuestion(authedUser, qid, answer) {
   return {
-    type: ANSWER_QUESTION,    
-    questions,
-    users,
+    type: ANSWER_QUESTION,
+    qid,
+    answer,
+    authedUser,
   };
 }
 
 export function handleSetAnswerQuestion(qid, answer) {
-  // console.log('authedUser', authedUser)
- 
-  console.log('qid', qid)
-  console.log('answer', answer)
   return (dispatch, getState) => {
-    const  {authedUser}  = getState();
-    console.log('authedUser from state', authedUser)
-    console.log('getState()', getState())
-    console.log('getState().authedUser', getState().authedUser)
+    const { authedUser } = getState();
     dispatch(showLoading());
     return _saveQuestionAnswer({
       authedUser,
       qid,
-      answer}
-    )
-      .then((questions, users) =>
-        dispatch(answerQuestion(questions, users))
-      )
+      answer,
+    })
+      .then(() => dispatch(answerQuestion(authedUser, qid, answer)))
       .then(() => dispatch(hideLoading()));
   };
 }
@@ -62,7 +50,7 @@ export function handleAddQuestion(optionOneText, optionTwoText) {
       optionTwoText,
       author: authedUser,
     })
-      .then((question) => dispatch(addQuestion(question)))
+      .then((question) => dispatch(addQuestion(question, authedUser)))
       .then(() => dispatch(hideLoading()));
   };
 }

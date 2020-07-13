@@ -7,7 +7,6 @@ class AnsweredQuestionsList extends Component {
     return (
       <div>
         <ul>
-          <li>{JSON.stringify(this.props.questions)}</li>
           {this.props.questions.map((qId) => (
             <Question key={qId} questionId={qId} />
           ))}
@@ -16,11 +15,7 @@ class AnsweredQuestionsList extends Component {
     );
   }
 }
-/**
- * Example question
- * {{"8xf0y6ziyjabvozdd253nd":
- *  {"id":"8xf0y6ziyjabvozdd253nd","author":"sarahedo","timestamp":1467166872634,"optionOne":{"votes":["sarahedo"],"text":"have horrible short term memory"},"optionTwo":{"votes":[],"text":"have horrible long term memory"}}} state
- */
+
 function mapStateToProps(state) {
   const { questions, authedUser } = state;
   return {

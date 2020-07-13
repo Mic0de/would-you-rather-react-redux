@@ -1,7 +1,10 @@
-import { RECEIVE_QUESTIONS, ANSWER_QUESTION } from "../actions/questions";
+import {
+  RECEIVE_QUESTIONS,
+  ANSWER_QUESTION,
+  ADD_QUESTION,
+} from "../actions/questions";
 
 export default function questions(state = {}, action) {
-  console.log('action', action)
   switch (action.type) {
     case RECEIVE_QUESTIONS:
       return {
@@ -10,10 +13,23 @@ export default function questions(state = {}, action) {
       };
     case ANSWER_QUESTION:
       return {
-        ...state, 
-        ...action.questions,
-        ...action.users       
-      }
+        ...state,
+        [action.qid]: {
+          ...state[action.qid],
+          [action.answer]: {
+            ...state[action.qid][action.answer],
+            votes: [
+              ...state[action.qid][action.answer].votes,
+              action.authedUser,
+            ],
+          },
+        },
+      };
+    case ADD_QUESTION:
+      return {
+        ...state,
+        [action.question.id]: action.question
+      };
     default:
       return state;
   }

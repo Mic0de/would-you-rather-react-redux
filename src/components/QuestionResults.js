@@ -7,6 +7,7 @@ class QuestionResults extends Component {
   render() {
     return (
       <div>
+        <i className='pi pi-star selected-option-badge' /> designates your vote.
         <Card
           title={`${this.props.question.author} says...`}
           className='p-grid question-box'
@@ -29,7 +30,10 @@ class QuestionResults extends Component {
                   <ul key={this.props.question.id}>
                     <li key={this.props.question.id.concat("optionOne")}>
                       {this.props.currentUserSelectedOption === "optionOne" && (
-                        <i className='pi pi-star selected-option-badge' />
+                        <i
+                          className='pi pi-star selected-option-badge'
+                          label='Your Vote'
+                        />
                       )}
 
                       <label

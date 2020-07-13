@@ -4,7 +4,6 @@ import { Card } from "primereact/card";
 import { RadioButton } from "primereact/radiobutton";
 import { Button } from "primereact/button";
 import { Link, withRouter } from "react-router-dom";
-import QuestionResults from "./QuestionResults";
 import { handleSetAnswerQuestion } from "../actions/questions";
 
 class Question extends Component {
@@ -15,17 +14,13 @@ class Question extends Component {
   };
 
   handleAnswerQuestion = (e) => {
-     e.preventDefault();
+    e.preventDefault();
 
-    console.log("chosenOption state = ", this.state.chosenOption);
-    console.log("id for question = ", this.props.questionId);
-    console.log("answerQ authedUser = ", this.props.authedUser);
     this.props.dispatch(
-      handleSetAnswerQuestion(
-        this.props.questionId,
-        this.state.chosenOption
-      )
+      handleSetAnswerQuestion(this.props.questionId, this.state.chosenOption)
     );
+
+    this.props.history.push(`questions/${this.props.questionId}/results`);
   };
 
   constructor() {
@@ -35,9 +30,6 @@ class Question extends Component {
     };
   }
   render() {
-    
-  console.log('this.props.question.author', this.props.currentAuthor)
-  console.log('this.props.currentAuthor', this.props.currentAuthor)
     return (
       <Card
         title={`${this.props.question.author} says...`}
@@ -59,8 +51,6 @@ class Question extends Component {
             <div className='question-content '>
               {this.props.answered === false ? (
                 <form onSubmit={this.handleAnswerQuestion}>
-                  {/* <ul key={this.props.question.id}>                                   */}
-                  {/* <li key={this.props.question.id.concat("optionOne")}> */}
                   <RadioButton
                     name='optionSelect'
                     key={this.props.question.id.concat("optionOne")}
@@ -68,16 +58,13 @@ class Question extends Component {
                     value='optionOne'
                     onChange={(e) => this.setState({ chosenOption: e.value })}
                   />
-                  {/* onChange={this.handleAnswerQuestion} */}
                   <label
                     htmlFor={this.props.question.id.concat("optionOne")}
                     className='p-radiobutton-label'
                   >
                     {this.props.question.optionOne.text}
                   </label>
-                  {/* </li> */}
                   <br />
-                  {/* <li key={this.props.question.id.concat("optionTwo")}> */}
                   <RadioButton
                     name='optionSelect'
                     key={this.props.question.id.concat("optionTwo")}
@@ -90,8 +77,7 @@ class Question extends Component {
                   >
                     {this.props.question.optionTwo.text}
                   </label>
-                  {/* </li> */}
-                  {/* </ul> */}
+                  <br />
                   <Button
                     label='Submit'
                     type='submit'
@@ -135,5 +121,5 @@ function mapStateToProps(state, props) {
   };
 }
 
-export default connect(mapStateToProps)(Question);
-// export default withRouter(connect(mapStateToProps)(Question));
+// export default connect(mapStateToProps)(Question);
+export default withRouter(connect(mapStateToProps)(Question));
