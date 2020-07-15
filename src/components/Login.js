@@ -15,7 +15,8 @@ class Login extends Component {
     dispatch(handleSetAuthedUser(userId));
     // console.log('handleLogin location = ', location);
     // history.push(location.state.from || '/');
-    history.push('/home');
+    // history.push('/home');
+    history.push(this.props.location.state || '/');
   };
 
   render() {

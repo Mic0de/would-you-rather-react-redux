@@ -49,7 +49,7 @@ class QuestionResults extends Component {
                           100
                         }
                         displayValueTemplate={() =>
-                          `${this.props.optionOneVotes} / ${this.props.totalVotes}`
+                          `${this.props.optionOneVotes} / ${this.props.totalVotes} (${((this.props.optionOneVotes / this.props.totalVotes) * 100)}%)`
                         }
                         unit=' '
                       />
@@ -72,7 +72,7 @@ class QuestionResults extends Component {
                           100
                         }
                         displayValueTemplate={() =>
-                          `${this.props.optionTwoVotes} / ${this.props.totalVotes}`
+                          `${this.props.optionTwoVotes} / ${this.props.totalVotes} (${((this.props.optionTwoVotes / this.props.totalVotes) * 100)}%)`
                         }
                         unit=' '
                       />

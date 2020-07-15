@@ -18,8 +18,8 @@ class Header extends Component {
     return (
       <Fragment>
         <div className='header-options'>
-          <Link to='/home'>&nbsp;Home&nbsp;</Link>
-          <Link to='/new'>&nbsp; New Question &nbsp; </Link>
+          <Link to='/'>&nbsp;Home&nbsp;</Link>
+          <Link to='/add'>&nbsp; New Question &nbsp; </Link>
           <Link to='/leaderboard'>&nbsp;Leaderboard&nbsp;</Link>
 
           {this.props.authedUser !== null ? (

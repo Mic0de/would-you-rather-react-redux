@@ -32,9 +32,11 @@ class Question extends Component {
   render() {
     return (
       <Card
-        title={`${this.props.question.author} says...`}
+        title={`${this.props.currentAuthor.name} says...`}
+        subTitle='Would You Rather ...'
         className='p-grid question-box'
       >
+        <br/>
         <div
           key={`${this.props.currentAuthor.id} + ${this.props.question.id}`}
           className='p-grid'
@@ -47,7 +49,7 @@ class Question extends Component {
               className='question-avatar '
             />
           </div>
-          <div className='p-col'>
+          <div >
             <div className='question-content '>
               {this.props.answered === false ? (
                 <form onSubmit={this.handleAnswerQuestion}>
@@ -77,6 +79,7 @@ class Question extends Component {
                   >
                     {this.props.question.optionTwo.text}
                   </label>
+                  <br />
                   <br />
                   <Button
                     label='Submit'

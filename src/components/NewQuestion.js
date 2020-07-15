@@ -14,7 +14,7 @@ class NewQuestion extends Component {
       handleAddQuestion(this.state.optionOneText, this.state.optionTwoText)
     );
 
-    this.props.history.push("/home");
+    this.props.history.push("/");
   };
 
   constructor() {

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import Question from './Question';
+import Question from "./Question";
 
 class UnansweredQuestionsList extends Component {
   render() {
@@ -20,11 +20,14 @@ function mapStateToProps(state) {
   const { authedUser, questions } = state;
   return {
     authedUser,
-    questions: (Object.entries(questions).filter(
-      ([qk, qv]) =>
-        !qv["optionOne"].votes.includes(authedUser) &&
-        !qv["optionTwo"].votes.includes(authedUser)
-    )).map(([qk, qv]) => qk),
+    questions: Object.entries(questions)
+      .filter(
+        ([qk, qv]) =>
+          !qv["optionOne"].votes.includes(authedUser) &&
+          !qv["optionTwo"].votes.includes(authedUser)
+      )
+      .sort(([qk, qv], [qk2, qv2]) => qv2.timestamp - qv.timestamp)
+      .map(([qk, qv]) => qk),
   };
 }
 

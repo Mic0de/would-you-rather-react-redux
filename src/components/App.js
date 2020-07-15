@@ -11,19 +11,24 @@ import {
   Route,
   Switch,
   withRouter,
+  Redirect,
 } from "react-router-dom";
 
 import Question from "./Question";
 import QuestionResults from "./QuestionResults";
 import NewQuestion from "./NewQuestion";
 import Leaderboard from "./Leaderboard";
+import ErrorPage from "./ErrorPage";
 
 const PrivateRoute = ({ component: Component, authedUser, ...rest }) => {
   return (
     <Route
       {...rest}
       render={(props) =>
-        authedUser !== null ? <Component {...props} /> :  <Login/> 
+        authedUser !== null ? <Component {...props} /> : 
+        <Redirect to={{
+          pathname: '/login',
+        state: props.location}} />
       }
     />
   );
@@ -38,15 +43,19 @@ class App extends Component {
     return (
       <Router>
         <div className='App'>
-          {/* <header className='header-options'> */}
-            <Header />
-          {/* </header> */}
+          <Header />
 
           <LoadingBar className='loading-bar' />
           <div className='container'>
             <Fragment>
               <Switch>
-                <Route path='/' exact component={Login} />
+                <Route path='/login' exact component={Login} />
+                <PrivateRoute
+                  path='/'
+                  exact
+                  component={Home}
+                  authedUser={this.props.authedUser}
+                />
                 <PrivateRoute
                   path='/questions/:id'
                   exact
@@ -58,15 +67,9 @@ class App extends Component {
                   exact
                   component={QuestionResults}
                   authedUser={this.props.authedUser}
-                />
+                />                
                 <PrivateRoute
-                  path='/home'
-                  exact
-                  component={Home}
-                  authedUser={this.props.authedUser}
-                />
-                <PrivateRoute
-                  path='/new'
+                  path='/add'
                   exact
                   component={NewQuestion}
                   authedUser={this.props.authedUser}
@@ -77,6 +80,7 @@ class App extends Component {
                   component={Leaderboard}
                   authedUser={this.props.authedUser}
                 />
+                <Route component={ErrorPage} />
               </Switch>
             </Fragment>
           </div>
