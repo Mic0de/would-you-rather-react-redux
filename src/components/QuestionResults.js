@@ -2,9 +2,13 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Card } from "primereact/card";
 import { ProgressBar } from "primereact/progressbar";
+import ErrorPage from "./ErrorPage";
 
 class QuestionResults extends Component {
   render() {
+    if (this.props.pageNotFound) {
+      return <ErrorPage />;
+    }
     return (
       <div>
         <i className='pi pi-star selected-option-badge' /> designates your vote.
@@ -49,7 +53,13 @@ class QuestionResults extends Component {
                           100
                         }
                         displayValueTemplate={() =>
-                          `${this.props.optionOneVotes} / ${this.props.totalVotes} (${((this.props.optionOneVotes / this.props.totalVotes) * 100)}%)`
+                          `${this.props.optionOneVotes} / ${
+                            this.props.totalVotes
+                          } (${
+                            (this.props.optionOneVotes /
+                              this.props.totalVotes) *
+                            100
+                          }%)`
                         }
                         unit=' '
                       />
@@ -72,7 +82,13 @@ class QuestionResults extends Component {
                           100
                         }
                         displayValueTemplate={() =>
-                          `${this.props.optionTwoVotes} / ${this.props.totalVotes} (${((this.props.optionTwoVotes / this.props.totalVotes) * 100)}%)`
+                          `${this.props.optionTwoVotes} / ${
+                            this.props.totalVotes
+                          } (${
+                            (this.props.optionTwoVotes /
+                              this.props.totalVotes) *
+                            100
+                          }%)`
                         }
                         unit=' '
                       />
@@ -94,25 +110,31 @@ const mapStateToProps = (state, props) => {
       ? props.match.params.id
       : props.questionId;
   const { authedUser, questions, users } = state;
+  let pageNotFound = false;
+  if (!questions[id]) {
+    pageNotFound = true;
+  }
+  console.log("id", id);
 
   return {
     id,
-    question: questions[id],
+    question: id && questions[id],
     authedUser,
     authedUserData: users[authedUser],
-    currentAuthor: users[questions[id].author],
-    optionOneVotes: questions[id].optionOne.votes.length,
-    optionTwoVotes: questions[id].optionTwo.votes.length,
+    currentAuthor: questions[id] && users[questions[id].author],
+    optionOneVotes: questions[id] && questions[id].optionOne.votes.length,
+    optionTwoVotes: questions[id] && questions[id].optionTwo.votes.length,
     totalVotes:
+      questions[id] &&
       questions[id].optionOne.votes.length +
-      questions[id].optionTwo.votes.length,
-    currentUserSelectedOption: questions[id].optionOne.votes.includes(
-      authedUser
-    )
-      ? "optionOne"
-      : questions[id].optionTwo.votes.includes(authedUser)
-      ? "optionTwo"
-      : null,
+        questions[id].optionTwo.votes.length,
+    currentUserSelectedOption:
+      questions[id] && questions[id].optionOne.votes.includes(authedUser)
+        ? "optionOne"
+        : questions[id] && questions[id].optionTwo.votes.includes(authedUser)
+        ? "optionTwo"
+        : null,
+    pageNotFound,
   };
 };
 

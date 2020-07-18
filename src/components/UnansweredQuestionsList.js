@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import Question from "./Question";
+import QuestionPreview from "./QuestionPreview";
 
 class UnansweredQuestionsList extends Component {
   render() {
@@ -8,7 +8,7 @@ class UnansweredQuestionsList extends Component {
       <div>
         <ul>
           {this.props.questions.map((qId) => (
-            <Question key={qId} questionId={qId} />
+            <QuestionPreview key={qId} questionId={qId} />
           ))}
         </ul>
       </div>
